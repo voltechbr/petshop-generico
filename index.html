@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seu Negócio Canino</title>
+<meta name="description" content="Template premium para escolas, hotéis, creches e adestradores de cães.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   IDENTIDADE VISUAL — edite as cores e fontes aqui
+   ========================================================= */
+:root{
+  --blue:#1c4bff;        /* azul vibrante */
+  --blue-deep:#0b1f7a;   /* azul profundo (textos e overlay) */
+  --orange:#ff7a1a;      /* laranja */
+  --yellow:#ffc832;      /* amarelo */
+  --bg:#f6f8fd;          /* fundo claro */
+  --ink:#0d1740;         /* texto principal */
+  --muted:#5b6585;       /* texto secundário */
+  --white:#fff;
+
+  --font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+
+  --r-pill:999px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --wrap:min(1200px,100% - 40px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px;border-radius:8px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- BOTÕES ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6em;
+  font:700 .9rem/1 var(--font-body);letter-spacing:.04em;
+  padding:1.1rem 1.8rem;border-radius:var(--r-pill);border:2px solid transparent;
+  cursor:pointer;white-space:nowrap;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s,color .25s;
+}
+.btn:hover{transform:translateY(-3px)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn-primary{background:var(--orange);color:var(--ink);box-shadow:0 10px 24px -8px rgba(255,122,26,.7)}
+.btn-primary:hover{background:var(--yellow);box-shadow:0 14px 28px -8px rgba(255,200,50,.8)}
+.btn-light{background:var(--white);color:var(--blue)}
+.btn-light:hover{background:var(--blue);color:var(--white)}
+.btn-sm{padding:.85rem 1.35rem;font-size:.82rem}
+
+/* ---------- HEADER ---------- */
+.header{
+  position:fixed;z-index:50;left:50%;top:calc(14px + env(safe-area-inset-top,0px));
+  width:var(--wrap);transform:translateX(-50%);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-radius:var(--r-pill);padding:.55rem .6rem .55rem 1.1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  box-shadow:0 12px 40px -16px rgba(11,31,122,.55);
+  transition:box-shadow .3s,background .3s;
+}
+.header.is-scrolled{background:rgba(255,255,255,.98);box-shadow:0 14px 40px -12px rgba(11,31,122,.4)}
+
+/* Espaço da logo: troque o conteúdo de .logo por <img src="sua-logo.svg" alt="Nome"> */
+.logo{display:flex;align-items:center;gap:.6rem;min-height:44px;font-family:var(--font-display);font-weight:800;font-size:1.05rem;color:var(--blue)}
+.logo img{height:44px;width:auto;display:block}
+.logo-mark{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--yellow);color:var(--blue-deep)}
+.logo-mark svg{width:24px;height:24px}
+
+.nav{display:none;align-items:center;gap:.25rem}
+.nav a{font-weight:600;font-size:.95rem;padding:.6rem 1rem;border-radius:var(--r-pill);transition:background .25s,color .25s}
+.nav a:hover{background:rgba(28,75,255,.1);color:var(--blue)}
+.header-actions{display:flex;align-items:center;gap:.5rem}
+.header .btn-contact{display:none}
+
+.burger{width:48px;height:48px;border:0;border-radius:50%;background:var(--blue);cursor:pointer;display:grid;place-items:center;padding:0}
+.burger span{display:block;width:20px;height:2.5px;border-radius:2px;background:#fff;grid-area:1/1;transition:transform .35s var(--ease),opacity .2s}
+.burger span:nth-child(1){transform:translateY(-6px)}
+.burger span:nth-child(3){transform:translateY(6px)}
+.burger[aria-expanded="true"] span:nth-child(1){transform:rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:rotate(-45deg)}
+
+.mobile-menu{
+  position:absolute;left:0;right:0;top:calc(100% + 10px);
+  background:var(--white);border-radius:28px;padding:1rem;
+  display:grid;gap:.25rem;box-shadow:0 24px 50px -18px rgba(11,31,122,.6);
+  opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transform-origin:top right;
+  transition:opacity .3s,transform .4s var(--ease),visibility .3s;
+}
+.mobile-menu.is-open{opacity:1;visibility:visible;transform:none}
+.mobile-menu a:not(.btn){font-family:var(--font-display);font-weight:700;font-size:1.35rem;padding:.8rem 1rem;border-radius:16px}
+.mobile-menu a:not(.btn):hover{background:var(--bg);color:var(--blue)}
+.mobile-menu .btn{margin-top:.5rem}
+
+@media (min-width:960px){
+  .nav{display:flex}
+  .header .btn-contact{display:inline-flex}
+  .burger,.mobile-menu{display:none}
+  .header{padding-left:1.4rem}
+}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;color:var(--white);overflow:hidden;isolation:isolate;background:#10141c}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;z-index:-3}
+.hero::before{ /* overlay para legibilidade */
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:
+    linear-gradient(0deg,rgba(9,13,22,.5) 0%,rgba(9,13,22,0) 40%),
+    linear-gradient(100deg,rgba(9,13,22,.58) 0%,rgba(9,13,22,.28) 46%,rgba(9,13,22,0) 82%);
+}
+.hero-inner{width:var(--wrap);margin:0 auto;padding:9.5rem 0 clamp(8rem,17vw,13rem)}
+.hero-title{
+  margin:0;font-family:var(--font-display);font-weight:800;
+  font-size:clamp(2.9rem,9.5vw,7.4rem);line-height:.92;letter-spacing:-.035em;text-transform:uppercase;
+  max-width:11ch;text-wrap:balance;text-shadow:0 2px 30px rgba(9,13,22,.35);
+}
+.hero-title .line{display:block;overflow:hidden;padding-bottom:.08em}
+.hero-title .line>span{display:block;transform:translateY(110%)}
+.hero-sub{text-shadow:0 1px 16px rgba(9,13,22,.4);margin:1.6rem 0 0;max-width:34rem;font-size:clamp(1.05rem,2.2vw,1.3rem);line-height:1.5;color:rgba(255,255,255,.92)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:2.2rem}
+
+/* ondas de transição */
+.waves{position:absolute;left:0;right:0;bottom:-1px;line-height:0;z-index:-1}
+.waves svg{display:block;width:100%;height:clamp(70px,12vw,170px)}
+
+/* ---------- ANIMAÇÃO DE ENTRADA (uma sequência orquestrada) ---------- */
+@keyframes rise{to{transform:none}}
+@keyframes fade-up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;transform:translateY(-24px)}to{opacity:1;transform:none}}
+.header{animation:drop .8s var(--ease) .1s both}
+.hero-title .line>span{animation:rise 1s var(--ease) both}
+.hero-title .line:nth-child(1)>span{animation-delay:.25s}
+.hero-title .line:nth-child(2)>span{animation-delay:.38s}
+.hero-title .line:nth-child(3)>span{animation-delay:.51s}
+.hero-sub{animation:fade-up .9s var(--ease) .85s both}
+.hero-cta{animation:fade-up .9s var(--ease) 1.05s both}
+.waves{animation:fade-up 1.2s var(--ease) .6s both}
+
+@media (max-width:640px){
+  .hero::before{background:linear-gradient(0deg,rgba(9,13,22,.68) 0%,rgba(9,13,22,.24) 58%,rgba(9,13,22,.42) 100%)}
+  .hero-cta .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .hero-title .line>span{transform:none}
+}
+
+/* =========================================================
+   SEÇÃO SOBRE NÓS
+   ========================================================= */
+.about{position:relative;background:var(--bg);padding:clamp(3rem,7vw,6rem) 0 clamp(4.5rem,10vw,8rem);overflow:hidden}
+.about-grid{width:var(--wrap);margin:0 auto;display:grid;gap:clamp(2.5rem,6vw,4rem);align-items:center}
+@media (min-width:900px){.about-grid{grid-template-columns:1.05fr 1fr;gap:clamp(3rem,6vw,6rem)}}
+
+/* ----- foto ----- */
+.about-media{position:relative;width:min(100%,480px);margin:0 auto;padding:0 0 1.5rem 1.25rem}
+.about-media::before{ /* forma amarela atrás da foto */
+  content:"";position:absolute;inset:2.2rem 1.5rem 0 -.5rem;background:var(--yellow);
+  border-radius:50% 50% 32px 32px / 34% 34% 32px 32px;transform:rotate(-5deg)
+}
+.photo{
+  position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--blue);
+  border-radius:50% 50% 32px 32px / 34% 34% 32px 32px;
+  box-shadow:0 30px 60px -28px rgba(11,31,122,.6)
+}
+/* Para usar sua foto: <div class="photo"><img src="assets/sua-foto.jpg" alt="Descrição"></div> */
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;text-align:center;padding:2rem;color:#fff;background:radial-gradient(circle at 30% 20%,#4a73ff 0%,var(--blue) 55%,var(--blue-deep) 130%)}
+.photo-ph svg{width:30%;max-width:120px;opacity:.9}
+.photo-ph strong{font:800 clamp(1.2rem,3vw,1.6rem)/1.1 var(--font-display);letter-spacing:-.01em}
+.photo-ph span{font-size:.9rem;opacity:.85}
+.sticker{
+  position:absolute;right:-.4rem;bottom:0;width:clamp(104px,26vw,136px);aspect-ratio:1;border-radius:50%;
+  background:var(--orange);color:var(--ink);display:grid;place-items:center;text-align:center;padding:.8rem;
+  font:800 .95rem/1.15 var(--font-display);transform:rotate(-9deg);box-shadow:0 16px 30px -12px rgba(255,122,26,.8);
+  border:4px solid var(--bg)
+}
+.deco{position:absolute;pointer-events:none}
+.deco-dots{left:-1.2rem;top:.8rem;width:110px;height:110px;color:var(--blue);opacity:.35}
+.deco-paw-1{right:-.2rem;top:4%;width:46px;color:var(--orange);transform:rotate(18deg)}
+.deco-paw-2{left:-.6rem;bottom:14%;width:34px;color:var(--blue);transform:rotate(-22deg);opacity:.9}
+
+/* ----- texto ----- */
+.about-title{margin:0;font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2.8rem,7vw,5.2rem);line-height:.92;letter-spacing:-.035em;color:var(--blue-deep)}
+.squiggle{display:block;width:clamp(110px,16vw,160px);height:auto;margin:1rem 0 1.6rem;color:var(--orange)}
+.about-lead{margin:0 0 1rem;font-family:var(--font-display);font-weight:600;font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.3;letter-spacing:-.01em;color:var(--ink);max-width:30rem}
+.about-text{margin:0;color:var(--muted);max-width:32rem}
+
+.benefits{list-style:none;margin:2.2rem 0 0;padding:0;display:grid;gap:1rem 1.4rem;grid-template-columns:1fr}
+@media (min-width:520px){.benefits{grid-template-columns:1fr 1fr}}
+.benefit{display:flex;gap:.9rem;align-items:flex-start}
+.chip{flex:none;width:48px;height:48px;border-radius:16px;display:grid;place-items:center}
+.chip svg{width:24px;height:24px}
+.chip.c-blue{background:var(--blue);color:#fff}
+.chip.c-orange{background:var(--orange);color:var(--ink)}
+.chip.c-yellow{background:var(--yellow);color:var(--ink)}
+.benefit h3{margin:.1rem 0 .15rem;font:700 1.05rem/1.2 var(--font-display);color:var(--blue-deep)}
+.benefit p{margin:0;font-size:.95rem;line-height:1.45;color:var(--muted)}
+
+/* ----- animação ao entrar na tela (só com JS ativo) ----- */
+.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal-photo{opacity:0;transform:translateY(34px) scale(.96);clip-path:inset(12% 8% 0 8% round 40%);transition:opacity .9s var(--ease),transform 1.1s var(--ease),clip-path 1.2s var(--ease)}
+.js .reveal-photo.in{opacity:1;transform:none;clip-path:inset(0 0 0 0 round 0)}
+.js .pop{opacity:0;transform:scale(.4) rotate(-30deg);transition:opacity .5s,transform .8s cubic-bezier(.3,1.5,.5,1);transition-delay:var(--d,.6s)}
+.js .in .pop,.js .pop.in{opacity:1;transform:rotate(-9deg)}
+.js .in .deco.pop{transform:none}
+@media (prefers-reduced-motion:reduce){.js .reveal,.js .reveal-photo,.js .pop{opacity:1;transform:none;clip-path:none}}
+
+/* =========================================================
+   SEÇÃO NOSSOS SERVIÇOS
+   ========================================================= */
+.btn-blue{background:var(--blue);color:#fff}
+.btn-blue:hover{background:var(--orange);color:var(--ink)}
+.services{position:relative;background:var(--white);padding:clamp(4rem,9vw,7rem) 0 clamp(4.5rem,10vw,8rem);overflow:hidden;border-radius:clamp(32px,6vw,72px) clamp(32px,6vw,72px) 0 0}
+.services::before{content:"";position:absolute;right:-90px;top:-90px;width:260px;height:260px;border-radius:50%;background:var(--yellow);opacity:.9}
+.services::after{content:"";position:absolute;left:-40px;bottom:-40px;width:200px;height:200px;border-radius:50%;border:26px solid var(--orange);opacity:.18}
+.svc-wrap{position:relative;z-index:1;width:var(--wrap);margin:0 auto}
+.svc-head{display:grid;gap:1.2rem;margin-bottom:clamp(2rem,5vw,3.5rem)}
+@media (min-width:900px){.svc-head{grid-template-columns:1.2fr 1fr;align-items:end;gap:3rem}}
+.svc-title{margin:0;font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,6.2vw,4.8rem);line-height:.94;letter-spacing:-.035em;color:var(--blue-deep)}
+.svc-title::after{content:"";display:block;width:84px;height:8px;margin-top:1.1rem;border-radius:8px;background:linear-gradient(90deg,var(--blue) 0 33%,var(--orange) 33% 66%,var(--yellow) 66%)}
+.svc-intro{margin:0;color:var(--muted);max-width:30rem}
+
+.svc-grid{list-style:none;margin:0;padding:0;display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media (min-width:640px){.svc-grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1020px){.svc-grid{grid-template-columns:repeat(3,1fr);gap:1.5rem}}
+@media (max-width:639px){.svc-grid{max-width:440px;margin:0 auto}}
+
+.card{position:relative;height:100%;display:flex;flex-direction:column;background:var(--bg);border:1px solid rgba(13,23,64,.07);border-radius:28px;padding:10px 10px 1.4rem;transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .3s}
+.card-media{position:relative;aspect-ratio:16/10;border-radius:20px;overflow:hidden;background:var(--blue)}
+/* Para usar sua imagem: troque .card-ph por <img src="assets/servico.jpg" alt="Nome do serviço"> */
+.card-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease)}
+.card-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;color:#fff;font:700 .82rem/1 var(--font-body);letter-spacing:.04em;transition:transform .7s var(--ease)}
+.card-ph svg{width:44px;height:44px;opacity:.9}
+.c-blue .card-media{background:radial-gradient(circle at 25% 20%,#4a73ff,var(--blue) 60%,var(--blue-deep) 140%)}
+.c-orange .card-media{background:radial-gradient(circle at 25% 20%,#ffa35c,var(--orange) 65%,#e85d00 140%)}
+.c-yellow .card-media{background:radial-gradient(circle at 25% 20%,#ffe27a,var(--yellow) 65%,#f0a800 140%)}
+.c-orange .card-ph,.c-yellow .card-ph{color:var(--ink)}
+.card-body{display:flex;flex-direction:column;flex:1;padding:1.5rem 1rem 0}
+.card h3{margin:0 0 .5rem;font:800 1.45rem/1.1 var(--font-display);letter-spacing:-.02em;text-transform:uppercase;color:var(--blue-deep)}
+.card p.desc{margin:0 0 1.3rem;font-size:.98rem;line-height:1.5;color:var(--muted)}
+.card .btn{align-self:flex-start;margin-top:auto}
+.card .btn svg{width:16px;height:16px;transition:transform .35s var(--ease)}
+.pricewrap{position:relative}
+.price-pill{position:absolute;left:1.1rem;bottom:-1.05rem;z-index:2;background:var(--ink);color:#fff;font:700 .95rem/1 var(--font-display);padding:.7rem 1.1rem;border-radius:var(--r-pill);border:3px solid var(--bg);transition:transform .4s var(--ease),background .3s}
+.c-orange .price-pill{background:var(--blue)}
+.c-yellow .price-pill{background:var(--ink)}
+@media (hover:hover){
+  .card:hover{transform:translateY(-8px);box-shadow:0 28px 44px -26px rgba(11,31,122,.55);border-color:rgba(28,75,255,.25)}
+  .card:hover .card-ph{transform:scale(1.12) rotate(-3deg)}
+  .card:hover .card-media img{transform:scale(1.06)}
+  .card:hover .price-pill{transform:rotate(-4deg) scale(1.06);background:var(--orange);color:var(--ink)}
+  .card:hover .btn svg{transform:translateX(4px)}
+  .card:hover .btn{background:var(--orange);color:var(--ink)}
+}
+
+/* =========================================================
+   SEÇÃO POR QUE ESCOLHER A GENTE?
+   ========================================================= */
+.why{position:relative;background:var(--blue);color:#fff;padding:clamp(7rem,14vw,11rem) 0 clamp(4.5rem,10vw,8rem);overflow:hidden;isolation:isolate}
+.why-wave{position:absolute;left:0;right:0;top:-1px;line-height:0;z-index:-1}
+.why-wave svg{display:block;width:100%;height:clamp(50px,8vw,110px)}
+.why::before{content:"";position:absolute;z-index:-2;inset:0;background:radial-gradient(circle at 85% 10%,rgba(255,255,255,.16),transparent 45%),radial-gradient(circle at 5% 100%,var(--blue-deep),transparent 55%)}
+.why-dots{position:absolute;z-index:-1;right:4%;bottom:6%;width:150px;height:150px;color:#fff;opacity:.22}
+.why-wrap{width:var(--wrap);margin:0 auto;display:grid;gap:clamp(2.5rem,5vw,3.5rem)}
+@media (min-width:960px){.why-wrap{grid-template-columns:.8fr 1.2fr;gap:clamp(3rem,6vw,6rem);align-items:start}.why-intro{position:sticky;top:7.5rem}}
+.why-intro{position:relative}
+.why-paw{position:absolute;z-index:-1;left:-2.5rem;top:-3rem;width:min(260px,60%);color:#fff;opacity:.09;transform:rotate(-14deg)}
+.why-title{margin:0;font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,6vw,4.6rem);line-height:.94;letter-spacing:-.035em}
+.why-title::after{content:"";display:block;width:84px;height:8px;margin-top:1.2rem;border-radius:8px;background:linear-gradient(90deg,var(--yellow) 0 50%,var(--orange) 50%)}
+.why-text{margin:1.4rem 0 0;max-width:26rem;color:rgba(255,255,255,.88)}
+
+.why-grid{list-style:none;margin:0;padding:0;display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media (min-width:600px){.why-grid{grid-template-columns:1fr 1fr}}
+@media (min-width:960px){.why-grid li:nth-child(even){margin-top:2.5rem}.why-grid{padding-bottom:2.5rem}}
+.why-tile{height:100%;position:relative;overflow:hidden;background:var(--tile,#fff);color:var(--ink);border-radius:32px;padding:1.7rem 1.6rem 1.8rem;box-shadow:0 22px 40px -26px rgba(5,15,70,.8);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.t-white{--tile:#fff;--blob:var(--yellow)}
+.t-yellow{--tile:var(--yellow);--blob:#fff}
+.t-orange{--tile:var(--orange);--blob:var(--yellow)}
+.t-white2{--tile:#fff;--blob:var(--orange)}
+.why-icon{display:grid;place-items:center;width:84px;height:84px;margin-bottom:1.3rem;background:var(--blob);border-radius:58% 42% 55% 45%/50% 55% 45% 50%;transition:border-radius .8s var(--ease),transform .6s var(--ease)}
+.why-icon svg{width:46px;height:46px;color:var(--ink);transition:transform .6s var(--ease)}
+.why-tile h3{margin:0 0 .5rem;font:800 1.35rem/1.1 var(--font-display);letter-spacing:-.02em;text-transform:uppercase}
+.why-tile p{margin:0;font-size:.97rem;line-height:1.5;color:rgba(13,23,64,.78)}
+.why-tile::after{content:"";position:absolute;right:-34px;bottom:-34px;width:104px;height:104px;border-radius:50%;background:var(--blob);opacity:.5;transition:transform .6s var(--ease)}
+@media (hover:hover){
+  .why-tile:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:0 30px 46px -24px rgba(5,15,70,.9)}
+  .why-tile:hover .why-icon{border-radius:45% 55% 42% 58%/58% 45% 55% 42%;transform:rotate(-8deg) scale(1.06)}
+  .why-tile:hover .why-icon svg{transform:scale(1.12) rotate(8deg)}
+  .why-tile:hover::after{transform:scale(1.6)}
+}
+.js .why-tile .why-icon{transform:scale(.6) rotate(-25deg);opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1) .25s,opacity .5s .25s,border-radius .8s var(--ease)}
+.js .reveal.in .why-tile .why-icon{transform:none;opacity:1}
+@media (hover:hover){.js .reveal.in .why-tile:hover .why-icon{transform:rotate(-8deg) scale(1.06);transition-delay:0s}}
+@media (prefers-reduced-motion:reduce){.js .why-tile .why-icon{transform:none;opacity:1}}
+
+/* =========================================================
+   SEÇÃO COMO FUNCIONA
+   (3 ou 4 etapas: copie ou apague um <li class="step"> — a
+   numeração dos círculos e as linhas de ligação se ajustam sozinhas)
+   ========================================================= */
+.how{--how-r:clamp(24px,4vw,48px);position:relative;isolation:isolate;overflow:hidden;background:var(--bg);margin-top:calc(var(--how-r) * -1);border-radius:var(--how-r) var(--how-r) 0 0;padding:clamp(5rem,10vw,8rem) 0 clamp(4.5rem,10vw,8rem)}
+.how::before{content:"";position:absolute;z-index:-1;right:-110px;top:22%;width:280px;height:280px;border-radius:50%;background:var(--yellow);opacity:.28}
+.how::after{content:"";position:absolute;z-index:-1;left:-60px;bottom:-60px;width:240px;height:240px;border-radius:50%;border:30px solid var(--orange);opacity:.14}
+.how-dots{position:absolute;z-index:-1;left:3%;top:9%;width:130px;height:130px;color:var(--blue);opacity:.28}
+@media (max-width:959px){.how-dots{top:1.2rem;left:-1rem;width:100px;height:100px;opacity:.2}}
+.how-paw{position:absolute;z-index:-1;right:5%;bottom:7%;width:min(190px,34vw);color:var(--blue);opacity:.07;transform:rotate(16deg)}
+.how-wrap{width:var(--wrap);margin:0 auto}
+
+.how-head{text-align:center;max-width:44rem;margin:0 auto clamp(3rem,7vw,5rem)}
+.how-title{margin:0;font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,7vw,5rem);line-height:.94;letter-spacing:-.035em;color:var(--blue-deep)}
+.how-title::after{content:"";display:block;width:84px;height:8px;margin:1.2rem auto 0;border-radius:8px;background:linear-gradient(90deg,var(--blue) 0 33%,var(--orange) 33% 66%,var(--yellow) 66%)}
+.how-intro{margin:1.4rem auto 0;max-width:34rem;color:var(--muted)}
+
+/* ----- lista de etapas (mobile primeiro: vertical) ----- */
+.steps{--bd:64px;--gapv:2.5rem;list-style:none;margin:0 auto;padding:0;max-width:34rem;display:grid;gap:var(--gapv);counter-reset:step}
+.step{--c:var(--blue);--c-ink:#fff;--acc:var(--blue);--blob:var(--yellow);position:relative;counter-increment:step;display:grid;grid-template-columns:var(--bd) 1fr;column-gap:1.1rem;align-items:start}
+.step:nth-child(4n+2){--c:var(--orange);--c-ink:var(--ink);--acc:var(--orange);--blob:var(--yellow)}
+.step:nth-child(4n+3){--c:var(--yellow);--c-ink:var(--ink);--acc:var(--yellow);--blob:var(--orange)}
+.step:nth-child(4n+4){--c:var(--blue-deep);--c-ink:#fff;--acc:#fff;--blob:var(--orange)}
+.step:nth-child(2){--d:.12s}.step:nth-child(3){--d:.24s}.step:nth-child(4){--d:.36s}.step:nth-child(5){--d:.48s}
+
+/* numeração em destaque (automática: 01, 02, 03…) */
+.badge{position:relative;z-index:2;grid-column:1;grid-row:1;width:var(--bd);height:var(--bd);border-radius:50%;background:var(--c);color:var(--c-ink);display:grid;place-items:center;font:800 1.45rem/1 var(--font-display);letter-spacing:-.04em;box-shadow:0 0 0 6px var(--bg),0 16px 26px -12px rgba(11,31,122,.6);transition:transform .6s cubic-bezier(.3,1.5,.5,1)}
+.badge::before{content:counter(step,decimal-leading-zero)}
+.badge::after{content:"";position:absolute;inset:0;border-radius:50%;border:3px solid var(--c);opacity:0;pointer-events:none}
+
+/* linha de ligação vertical (mobile) */
+.step:not(:last-child)::before,.step:not(:last-child)::after{content:"";position:absolute;left:calc(var(--bd) / 2);top:calc(var(--bd) / 2);height:calc(100% + var(--gapv));z-index:0}
+.step:not(:last-child)::before{border-left:3px dashed rgba(13,23,64,.2);transform:translateX(-1.5px)}
+.step:not(:last-child)::after{width:4px;margin-left:-2px;border-radius:4px;background:var(--c);transform-origin:top;transform:scaleY(1)}
+.link{display:none}
+
+/* cartão */
+.step-card{position:relative;grid-column:2;grid-row:1;overflow:hidden;background:#fff;border:1px solid rgba(13,23,64,.07);border-radius:28px;padding:1.3rem 1.3rem 1.5rem;box-shadow:0 20px 38px -28px rgba(11,31,122,.55);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.step-card::after{content:"";position:absolute;right:-36px;bottom:-36px;width:110px;height:110px;border-radius:50%;background:var(--c);opacity:.13;transition:transform .7s var(--ease)}
+.step-top{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
+.step-icon{flex:none;display:grid;place-items:center;width:60px;height:60px;background:var(--blob);border-radius:58% 42% 55% 45%/50% 55% 45% 50%;transition:border-radius .8s var(--ease),transform .6s var(--ease)}
+.step-icon svg{width:36px;height:36px;color:var(--ink);transition:transform .6s var(--ease)}
+.step-tag{display:inline-block;font:700 .74rem/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--blue-deep);background:rgba(28,75,255,.1);background:color-mix(in srgb,var(--c) 20%,#fff);padding:.5rem .85rem;border-radius:var(--r-pill)}
+.step-card h3{margin:0 0 .5rem;font:800 1.35rem/1.1 var(--font-display);letter-spacing:-.02em;text-transform:uppercase;color:var(--blue-deep)}
+.step-card p{margin:0;font-size:.97rem;line-height:1.5;color:var(--muted)}
+
+/* ----- desktop: etapas lado a lado, ligadas por curvas ----- */
+@media (min-width:960px){
+  .steps{--bd:104px;--gap:1.5rem;max-width:none;grid-auto-flow:column;grid-auto-columns:1fr;column-gap:var(--gap);row-gap:0}
+  .step{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .step:not(:last-child)::before,.step:not(:last-child)::after{display:none}
+  .badge{font-size:2.5rem;margin-bottom:-1.7rem;box-shadow:0 0 0 9px var(--bg),0 20px 30px -14px rgba(11,31,122,.6)}
+  .step-card{width:100%;flex:1;padding:3.2rem 1.4rem 1.8rem;border-radius:32px}
+  .step:nth-child(odd) .step-card{transform:rotate(-1.2deg)}
+  .step:nth-child(even) .step-card{transform:rotate(1.2deg)}
+  .step-top{flex-direction:column;gap:.9rem;margin-bottom:1.1rem}
+  .step-icon{width:76px;height:76px}
+  .step-icon svg{width:44px;height:44px}
+
+  .step:not(:last-child) .link{display:block;position:absolute;z-index:0;pointer-events:none;left:50%;top:calc(var(--bd) / 2 - 26px);width:calc(100% + var(--gap));height:52px}
+  .step:nth-child(even) .link{transform:scaleY(-1)}
+  .link svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .link path{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke}
+  .link-base path{stroke:rgba(13,23,64,.24);stroke-width:4;stroke-dasharray:1 13}
+  .link-fill path{stroke:var(--c);stroke-width:5}
+}
+
+/* ----- interação ----- */
+@media (hover:hover){
+  .step:hover .step-card{transform:translateY(-8px) rotate(0deg);box-shadow:0 30px 46px -26px rgba(11,31,122,.6)}
+  .step:hover .step-card::after{transform:scale(1.7)}
+  .step:hover .step-icon{border-radius:45% 55% 42% 58%/58% 45% 55% 42%;transform:rotate(-8deg) scale(1.06)}
+  .step:hover .step-icon svg{transform:scale(1.12) rotate(8deg)}
+  .js .step.in:hover .badge{transform:scale(1.1) rotate(-6deg);transition-delay:0s}
+  .step:hover .badge::after{animation:ping .9s var(--ease)}
+}
+@keyframes ping{from{opacity:.7;transform:scale(1)}to{opacity:0;transform:scale(1.55)}}
+
+/* ----- animações na rolagem (só com JS ativo; reaproveita o .reveal) ----- */
+.js .step .badge{opacity:0;transform:scale(.4) rotate(-24deg);transition:opacity .5s calc(var(--d,0s) + .1s),transform .9s cubic-bezier(.3,1.5,.5,1) calc(var(--d,0s) + .1s)}
+.js .step.in .badge{opacity:1;transform:none}
+.js .step .step-icon{opacity:0;transform:scale(.6) rotate(-25deg);transition:opacity .5s calc(var(--d,0s) + .35s),transform .9s cubic-bezier(.3,1.4,.5,1) calc(var(--d,0s) + .35s),border-radius .8s var(--ease)}
+.js .step.in .step-icon{opacity:1;transform:none}
+@media (hover:hover){.js .step.in:hover .step-icon{transform:rotate(-8deg) scale(1.06);transition-delay:0s}}
+/* mobile: a linha desce até a próxima etapa */
+.js .step:not(:last-child)::after{transform:scaleY(0);transition:transform .9s var(--ease) .45s}
+.js .step.in:not(:last-child)::after{transform:scaleY(1)}
+/* desktop: a linha se desenha da esquerda para a direita */
+@media (min-width:960px){
+  .js .link-fill{clip-path:inset(-12px 100% -12px 0);transition:clip-path 1s var(--ease) calc(var(--d,0s) + .5s)}
+  .js .step.in .link-fill{clip-path:inset(-12px 0 -12px 0)}
+}
+/* mobile: cada etapa anima quando ela mesma aparece */
+@media (max-width:959px){.step{--d:0s!important}}
+@media (prefers-reduced-motion:reduce){
+  .js .step .badge,.js .step .step-icon{opacity:1;transform:none}
+  .js .step:not(:last-child)::after{transform:scaleY(1)}
+  .js .link-fill{clip-path:none}
+}
+
+/* =========================================================
+   SEÇÃO MOMENTOS ESPECIAIS (galeria editorial + ampliação)
+   Para trocar uma foto: edite o src (miniatura, .webp) e o data-full
+   (versão ampliada, .png) do botão .mo-card correspondente.
+   ========================================================= */
+.moments{--mo-r:clamp(24px,4vw,48px);--mo-gap:10px;position:relative;isolation:isolate;overflow:hidden;background:var(--blue-deep);color:#fff;margin-top:calc(var(--mo-r) * -1);border-radius:var(--mo-r) var(--mo-r) 0 0;padding:clamp(5rem,10vw,8rem) 0 clamp(4.5rem,10vw,8rem)}
+.moments::before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 90% 0%,rgba(28,75,255,.55),transparent 45%),radial-gradient(circle at 0% 100%,rgba(28,75,255,.35),transparent 50%)}
+.mo-circle{position:absolute;z-index:-1;right:-120px;top:14%;width:300px;height:300px;border-radius:50%;background:var(--yellow);opacity:.14}
+.mo-ring{position:absolute;z-index:-1;left:-70px;bottom:-70px;width:260px;height:260px;border-radius:50%;border:32px solid var(--orange);opacity:.2}
+.mo-dots{position:absolute;z-index:-1;left:3%;top:7%;width:130px;height:130px;color:#fff;opacity:.2}
+@media (max-width:959px){.mo-dots{left:-1rem;top:1.2rem;width:100px;height:100px;opacity:.14}}
+.mo-wrap{width:var(--wrap);margin:0 auto}
+
+.mo-head{display:grid;gap:1.2rem;margin-bottom:clamp(2.2rem,5vw,3.6rem)}
+@media (min-width:900px){.mo-head{grid-template-columns:1.2fr 1fr;align-items:end;gap:3rem}}
+.mo-title{margin:0;font-family:var(--font-display);font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,6.4vw,5rem);line-height:.94;letter-spacing:-.035em}
+.mo-title::after{content:"";display:block;width:84px;height:8px;margin-top:1.2rem;border-radius:8px;background:linear-gradient(90deg,var(--yellow) 0 33%,var(--orange) 33% 66%,#fff 66%)}
+.mo-intro{margin:0;max-width:30rem;color:rgba(255,255,255,.84)}
+.mo-hint{display:inline-flex;align-items:center;gap:.55rem;margin-top:1rem;font:700 .78rem/1.4 var(--font-body);letter-spacing:.12em;text-transform:uppercase;color:var(--yellow)}
+.mo-hint svg{width:18px;height:18px}
+
+/* ----- composição editorial -----
+   A grade é feita de quadrados: cada foto ocupa uma área (linha-início / coluna-início / linha-fim / coluna-fim)
+   e algumas se sobrepõem de leve. Celular: 12 colunas. Desktop (900px+): 24 colunas.
+   Para mover ou redimensionar uma foto, mude o grid-area dela (.f1 a .f11). */
+.mo-gallery{container-type:inline-size;max-width:640px;margin:0 auto}
+.mo-grid{--ring:4px;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-auto-rows:calc(min(640px,100vw - 40px) / 12);
+  grid-auto-rows:calc(100cqi / 12)}
+.mo-grid>li{position:relative;min-width:0;min-height:0;z-index:var(--z,1);--rad:clamp(20px,3.4cqi,32px);--rot:0deg}
+.mo-grid>li:hover{z-index:30}
+.mo-grid>.f1{grid-area:1/1/9/11;--z:1;--rot:-.6deg;--acc:var(--yellow)}
+.mo-grid>.f2{grid-area:6/7/15/13;--z:3;--rot:1.4deg;--acc:var(--orange);--rad:999px 999px 24px 24px}
+.mo-grid>.f3{grid-area:9/1/14/6;--z:2;--rot:-3deg;--acc:#fff;--rad:50%}
+.mo-grid>.f4{grid-area:16/3/23/12;--z:1;--rot:1deg;--acc:var(--yellow);--rad:24px 24px 24px clamp(40px,9cqi,100px)}
+.mo-grid>.f5{grid-area:22/1/31/9;--z:2;--rot:-1.2deg;--acc:var(--orange)}
+.mo-grid>.f6{grid-area:26/7/33/13;--z:4;--rot:2deg;--acc:#fff}
+.mo-grid>.f7{grid-area:33/2/41/12;--z:1;--rot:.6deg;--acc:var(--yellow);--rad:clamp(40px,9cqi,100px) 24px 24px 24px}
+.mo-grid>.f8{grid-area:40/1/49/13;--z:2;--rot:-.5deg;--acc:var(--orange)}
+.mo-grid>.f9{grid-area:48/1/57/7;--z:4;--rot:-1.8deg;--acc:#fff;--rad:999px 999px 24px 24px}
+.mo-grid>.f10{grid-area:50/7/58/13;--z:3;--rot:2.2deg;--acc:var(--yellow);--rad:999px}
+.mo-grid>.f11{grid-area:57/2/66/13;--z:5;--rot:-.8deg;--acc:var(--orange)}
+/* acentos de cor atrás das fotos */
+.mo-grid>.mo-deco{z-index:0;pointer-events:none}
+.mo-d1{grid-area:10/1/16/7;border-radius:50%;background:var(--yellow)}
+.mo-d2,.mo-quote{display:none}
+.mo-quote p{margin:0;font:800 clamp(1.7rem,3.3cqi,3rem)/1.02 var(--font-display);letter-spacing:-.03em;text-transform:uppercase}
+.mo-quote em{font-style:normal;color:var(--yellow)}
+.mo-quote::after{content:"";display:block;width:84px;height:8px;margin-top:1.3rem;border-radius:8px;background:linear-gradient(90deg,var(--yellow) 0 33%,var(--orange) 33% 66%,#fff 66%)}
+@media (min-width:900px){
+  .mo-gallery{max-width:none}
+  .mo-grid{--ring:6px;grid-template-columns:repeat(24,minmax(0,1fr));
+    grid-auto-rows:calc(min(1200px,100vw - 40px) / 24);
+    grid-auto-rows:calc(100cqi / 24)}
+  .mo-grid>.f1{grid-area:1/1/12/14}
+  .mo-grid>.f2{grid-area:4/12/14/19}
+  .mo-grid>.f3{grid-area:1/20/6/25}
+  .mo-grid>.f4{grid-area:7/19/12/25}
+  .mo-grid>.f5{grid-area:11/3/21/12}
+  .mo-grid>.f6{grid-area:13/13/20/19}
+  .mo-grid>.f7{grid-area:14/19/20/25}
+  .mo-grid>.f8{grid-area:21/13/30/25}
+  .mo-grid>.f9{grid-area:20/1/30/8}
+  .mo-grid>.f10{grid-area:24/9/32/14}
+  .mo-grid>.f11{grid-area:29/12/38/24}
+  .mo-d1{grid-area:1/15/8/22}
+  .mo-d2{display:block;grid-area:32/18/39/25;border-radius:50%;border:clamp(16px,2.6cqi,30px) solid var(--orange)}
+  .mo-quote{display:grid;grid-area:32/1/38/10;align-content:center;padding-right:2rem;z-index:1}
+}
+
+.mo-card{position:relative;display:block;width:100%;height:100%;padding:0;margin:0;border:0;overflow:hidden;cursor:zoom-in;background:var(--blue);color:#fff;text-align:left;font:inherit;
+  border-radius:var(--rad);isolation:isolate;transform:rotate(var(--rot));
+  box-shadow:0 0 0 var(--ring) var(--blue-deep),0 26px 40px -24px rgba(0,0,0,.75);
+  transition:transform .6s var(--ease),box-shadow .5s var(--ease);-webkit-tap-highlight-color:transparent}
+.mo-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s var(--ease),filter .5s}
+.mo-card::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(0deg,rgba(9,13,30,.82) 0%,rgba(9,13,30,.3) 38%,rgba(9,13,30,0) 62%);opacity:0;transition:opacity .45s}
+.mo-n{position:absolute;z-index:2;left:1rem;top:.8rem;font:800 .95rem/1 var(--font-display);letter-spacing:.04em;color:#fff;text-shadow:0 1px 10px rgba(9,13,30,.7);opacity:.92;transition:opacity .3s,transform .5s var(--ease)}
+.f2 .mo-n,.f3 .mo-n,.f9 .mo-n,.f10 .mo-n{left:50%;top:1.1rem;transform:translateX(-50%)}
+.mo-cap{position:absolute;z-index:2;left:0;right:0;bottom:0;display:grid;gap:.3rem;padding:1rem 1.2rem 1.1rem;opacity:0;transform:translateY(14px);transition:opacity .45s,transform .55s var(--ease)}
+.mo-cap small{justify-self:start;font:700 .68rem/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--acc,var(--yellow));padding:.42rem .7rem;border-radius:var(--r-pill)}
+.mo-cap strong{font:800 clamp(1rem,2.2vw,1.35rem)/1.1 var(--font-display);letter-spacing:-.01em;text-transform:uppercase}
+.f2 .mo-cap,.f3 .mo-cap,.f9 .mo-cap,.f10 .mo-cap{justify-items:center;text-align:center;padding-bottom:1.6rem}
+.f2 .mo-cap small,.f3 .mo-cap small,.f9 .mo-cap small,.f10 .mo-cap small{justify-self:center}
+.mo-zoom{position:absolute;z-index:2;right:.9rem;top:.9rem;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:var(--ink);box-shadow:0 10px 20px -8px rgba(0,0,0,.6);opacity:0;transform:scale(.4) rotate(-40deg);transition:opacity .35s,transform .6s cubic-bezier(.3,1.5,.5,1)}
+.mo-zoom svg{width:20px;height:20px}
+.f2 .mo-zoom,.f3 .mo-zoom,.f9 .mo-zoom,.f10 .mo-zoom{display:none}
+@media (hover:hover){
+  .mo-card:hover{transform:translateY(-8px) rotate(0deg) scale(1.025);box-shadow:0 0 0 var(--ring) var(--acc,var(--yellow)),0 38px 54px -26px rgba(0,0,0,.85)}
+  .mo-card:hover img{transform:scale(1.07);filter:saturate(1.06)}
+  .mo-card:hover::after,.mo-card:focus-visible::after{opacity:1}
+  .mo-card:hover .mo-cap,.mo-card:focus-visible .mo-cap{opacity:1;transform:none}
+  .mo-card:hover .mo-zoom,.mo-card:focus-visible .mo-zoom{opacity:1;transform:none}
+  .mo-card:hover .mo-n{opacity:0;transform:translateY(-6px)}
+  .f2 .mo-card:hover .mo-n,.f3 .mo-card:hover .mo-n,.f9 .mo-card:hover .mo-n,.f10 .mo-card:hover .mo-n{transform:translate(-50%,-6px)}
+}
+.mo-card:focus-visible{box-shadow:0 0 0 var(--ring) var(--acc,var(--yellow))}
+/* telas de toque: só o número; o título aparece ao ampliar */
+@media (hover:none){
+  /* sem hover, as fotos se sobrepõem e o título aparece na ampliação ao tocar */
+  .mo-card::after,.mo-cap{display:none}
+  .mo-card:active{transform:scale(.98) rotate(0deg)}
+}
+
+/* ----- ampliação (lightbox) ----- */
+html.mo-lock{overflow:hidden}
+.mo-lb{border:0;padding:0;margin:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;color:#fff;overflow:hidden}
+.mo-lb[open]{display:grid;place-items:center;grid-template-columns:auto minmax(0,1fr) auto;gap:.5rem;padding:max(16px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+.mo-lb::backdrop{background:rgba(6,14,60,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.mo-lb:not([open]){display:none}
+.mo-lb-fig{grid-column:2;margin:0;display:grid;justify-items:center;gap:1rem;max-width:100%;touch-action:pan-y}
+.mo-lb-fig img{display:block;max-width:min(100%,780px);max-height:calc(100svh - 170px);max-height:calc(100dvh - 170px);width:auto;height:auto;border-radius:24px;background:var(--blue);box-shadow:0 40px 80px -30px rgba(0,0,0,.8)}
+.mo-lb-fig.swap img,.mo-lb-fig.swap figcaption{animation:lbIn .5s var(--ease) both}
+@keyframes lbIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.mo-lb[open]{animation:lbFade .35s var(--ease)}
+@keyframes lbFade{from{opacity:0}to{opacity:1}}
+.mo-lb-fig figcaption{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.6rem 1rem;text-align:center}
+.mo-lb-fig figcaption small{font:700 .72rem/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--yellow);padding:.5rem .8rem;border-radius:var(--r-pill)}
+.mo-lb-fig figcaption strong{font:800 clamp(1.1rem,3vw,1.6rem)/1.1 var(--font-display);text-transform:uppercase;letter-spacing:-.01em}
+.mo-lb-fig figcaption span{font:600 .9rem/1 var(--font-body);color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums}
+.mo-lb-btn{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:0;padding:0;cursor:pointer;background:rgba(255,255,255,.14);color:#fff;transition:background .25s,color .25s,transform .35s var(--ease)}
+.mo-lb-btn svg{width:24px;height:24px}
+.mo-lb-btn:hover{background:var(--orange);color:var(--ink);transform:scale(1.08)}
+.mo-lb-close{position:absolute;right:max(14px,env(safe-area-inset-right));top:max(14px,env(safe-area-inset-top));z-index:3;background:rgba(255,255,255,.2)}
+.mo-lb-prev{grid-column:1;grid-row:1}
+.mo-lb-next{grid-column:3;grid-row:1}
+@media (max-width:640px){
+  .mo-lb[open]{grid-template-columns:minmax(0,1fr);grid-template-rows:1fr auto;align-content:center}
+  .mo-lb-fig{grid-column:1;grid-row:1;align-self:center}
+  .mo-lb-fig img{border-radius:18px;max-height:calc(100dvh - 210px)}
+  .mo-lb-prev,.mo-lb-next{grid-row:2;grid-column:1;width:48px;height:48px;margin-bottom:.4rem}
+  .mo-lb-prev{justify-self:start;margin-left:18%}
+  .mo-lb-next{justify-self:end;margin-right:18%}
+  .mo-lb-close{top:max(10px,env(safe-area-inset-top));right:10px}
+}
+
+/* =========================================================
+   TELA DE CARREGAMENTO
+   Mostra a marca por ~1,2 s e sobe com uma borda curva. Para trocar a marca, edite o <svg> dentro de #loader.
+   ========================================================= */
+.loader{display:none}
+.js .loader{--lip:12vw;position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:var(--bg);
+  transition:transform .85s cubic-bezier(.76,0,.24,1);will-change:transform;animation:lFail .01s linear 4.5s forwards}
+.loader::after{content:"";position:absolute;left:0;right:0;top:100%;height:var(--lip);background:var(--bg);border-radius:0 0 50% 50% / 0 0 100% 100%}
+.loader.is-out{transform:translateY(calc(-100% - var(--lip)));pointer-events:none}
+.loader-inner{display:grid;justify-items:center;gap:1.7rem;transition:opacity .3s,transform .5s var(--ease)}
+.loader.is-out .loader-inner{opacity:0;transform:scale(.9)}
+.loader-mark{width:clamp(92px,22vw,124px);animation:lFloat 1.3s ease-in-out .75s infinite}
+.loader-mark svg{display:block;width:100%;height:auto;overflow:visible}
+.l-disc{transform-origin:60px 60px;animation:lDisc .65s cubic-bezier(.3,1.5,.5,1) .05s both}
+.l-ring{transform-origin:60px 60px;fill:none;stroke:var(--orange);stroke-width:3;opacity:0;animation:lRing .9s var(--ease) .15s both}
+.l-pad,.l-toe{transform-box:fill-box;transform-origin:center;animation:lPop .45s cubic-bezier(.3,1.6,.5,1) both}
+.l-pad{animation-delay:.3s}
+.l-toe:nth-of-type(1){animation-delay:.42s}
+.l-toe:nth-of-type(2){animation-delay:.5s}
+.l-toe:nth-of-type(3){animation-delay:.58s}
+.l-toe:nth-of-type(4){animation-delay:.66s}
+.loader-bar{width:min(180px,46vw);height:6px;border-radius:6px;background:rgba(13,23,64,.1);overflow:hidden}
+.loader-bar i{display:block;height:100%;transform-origin:left;transform:scaleX(0);border-radius:inherit;background:linear-gradient(90deg,var(--blue) 0 33%,var(--orange) 33% 66%,var(--yellow) 66%);animation:lBar 1s cubic-bezier(.5,0,.2,1) .2s forwards}
+@keyframes lDisc{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+@keyframes lPop{from{transform:scale(0)}to{transform:none}}
+@keyframes lRing{0%{opacity:.7;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes lBar{to{transform:none}}
+@keyframes lFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes lFail{to{visibility:hidden;opacity:0}}
+html.is-loading{overflow:hidden}
+/* a animação de entrada do hero espera a tela de carregamento subir */
+.is-loading .header,.is-loading .hero-title .line>span,.is-loading .hero-sub,.is-loading .hero-cta,.is-loading .waves{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.loader-bar i{transform:none}.loader::after{display:none}}
+
+/* =========================================================
+   CURSOR PERSONALIZADO: OSSINHO (só com mouse; no celular vale o padrão)
+   ========================================================= */
+.bone,.bone-bit{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;will-change:transform}
+.bone{opacity:0;transition:opacity .25s}
+.bone-i{width:34px;height:16px;margin-top:-8px;transform-origin:0 50%;transform:rotate(45deg) scale(1);transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.bone-i svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 1.5px 1.5px rgba(10,20,50,.28))}
+.cur-on .bone{opacity:1}
+.cur-hot .bone-i{transform:rotate(38deg) scale(1.18)}
+.bone-bit{width:12px;height:12px;margin:-6px 0 0 -6px;overflow:visible}
+html.has-cursor,html.has-cursor *{cursor:none!important}
+/* com a foto ampliada aberta (camada superior do navegador), volta o cursor padrão */
+html.mo-lock.has-cursor,html.mo-lock.has-cursor *{cursor:auto!important}
+html.mo-lock.has-cursor .mo-lb-btn{cursor:pointer!important}
+html.mo-lock .bone,html.mo-lock .bone-bit{display:none}
+@media (hover:none),(pointer:coarse){.bone,.bone-bit{display:none!important}}
+</style>
+<script>document.documentElement.classList.add("js","is-loading")</script>
+</head>
+<body>
+
+<!-- ================= TELA DE CARREGAMENTO ================= -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-mark">
+      <svg viewBox="0 0 120 120">
+        <circle class="l-ring" cx="60" cy="60" r="56"/>
+        <circle class="l-disc" cx="60" cy="60" r="56" fill="#ffc832"/>
+        <g transform="translate(24 24) scale(3)" fill="#0b1f7a">
+          <ellipse class="l-toe" cx="5.500" cy="10" rx="2.200" ry="3"/><ellipse class="l-toe" cx="10" cy="5.800" rx="2.200" ry="3"/><ellipse class="l-toe" cx="16" cy="5.800" rx="2.200" ry="3"/><ellipse class="l-toe" cx="20" cy="10" rx="2.200" ry="3"/>
+          <path class="l-pad" d="M12 11c-3.300 0-6 3.200-6 5.900 0 1.900 1.400 2.900 3 2.900 1.200 0 2-.6 3-.6s1.800.6 3 .6c1.600 0 3-1 3-2.900 0-2.700-2.700-5.900-6-5.900z"/>
+        </g>
+      </svg>
+    </div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+</div>
+<script>
+(function(){
+  var root=document.documentElement,l=document.getElementById('loader');
+  if(!l){root.classList.remove('is-loading');return}
+  var t0=performance.now(),done=false,
+      MIN=window.matchMedia('(prefers-reduced-motion:reduce)').matches?250:1150, /* tempo mínimo da animação */
+      MAX=3000; /* nunca espera mais que isso */
+  function finish(){
+    if(done)return;done=true;
+    l.classList.add('is-out');root.classList.remove('is-loading');
+    setTimeout(function(){if(l.parentNode)l.parentNode.removeChild(l)},1100);
+  }
+  function go(){setTimeout(finish,Math.max(0,MIN-(performance.now()-t0)))}
+  if(document.readyState==='complete')go();else window.addEventListener('load',go,{once:true});
+  setTimeout(finish,MAX);
+})();
+</script>
+
+<!-- ================= HEADER ================= -->
+<header class="header" id="header">
+  <a href="#inicio" class="logo" aria-label="Página inicial">
+    <!-- TROQUE AQUI: <img src="assets/sua-logo.svg" alt="Nome do seu negócio"> -->
+    <span class="logo-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="6" cy="10" rx="2.2" ry="3"/><ellipse cx="10.5" cy="5.8" rx="2.2" ry="3"/><ellipse cx="16.5" cy="5.8" rx="2.2" ry="3"/><ellipse cx="21" cy="10" rx="2.2" ry="3" transform="translate(-1.5 0)"/><path d="M12 11c-3.3 0-6 3.2-6 5.9 0 1.9 1.4 2.9 3 2.9 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.6 0 3-1 3-2.9 0-2.7-2.7-5.9-6-5.9z"/></svg>
+    </span>
+    <span>SUA LOGO</span>
+  </a>
+
+  <nav class="nav" aria-label="Principal">
+    <a href="#inicio">Início</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+  </nav>
+
+  <div class="header-actions">
+    <a href="#contato" class="btn btn-primary btn-sm btn-contact">FALE CONOSCO</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#inicio">Início</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#contato">Contato</a>
+    <a href="#contato" class="btn btn-primary">FALE CONOSCO</a>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO ================= -->
+<section class="hero" id="inicio">
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="auto"
+         poster="assets/poster.jpg" aria-hidden="true" tabindex="-1">
+    <source src="assets/hero.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-inner">
+    <h1 class="hero-title" aria-label="SUA FRASE DE IMPACTO">
+      <span class="line"><span>SUA</span></span>
+      <span class="line"><span>FRASE DE</span></span>
+      <span class="line"><span>IMPACTO</span></span>
+    </h1>
+    <p class="hero-sub">Edite este subtítulo com uma frase curta e clara sobre o seu negócio e o cuidado que você oferece aos cães e aos tutores.</p>
+    <div class="hero-cta">
+      <a href="#servicos" class="btn btn-primary">CONHEÇA NOSSOS SERVIÇOS</a>
+      <a href="#contato" class="btn btn-light">FALE CONOSCO</a>
+    </div>
+  </div>
+
+  <!-- Ondas: azul, laranja, amarelo e a cor de fundo da próxima seção -->
+  <div class="waves" aria-hidden="true">
+    <svg viewBox="0 0 1440 170" preserveAspectRatio="none">
+      <path fill="#1c4bff" d="M0 70C180 20 340 20 520 62s360 56 540 10 280-44 380-14v112H0z"/>
+      <path fill="#ff7a1a" d="M0 96c200-44 380-40 560 0s340 40 500-6 280-32 380-6v86H0z"/>
+      <path fill="#ffc832" d="M0 122c220-34 400-28 580 6s320 28 480-4 270-26 400-4v50H0z"/>
+      <path fill="#f6f8fd" d="M0 146c240-28 420-20 600 6s320 12 470-6 250-14 370 0v24H0z"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ================= SOBRE NÓS ================= -->
+<section class="about" id="sobre" aria-labelledby="sobre-titulo">
+  <div class="about-grid">
+    <div class="about-media">
+      <svg class="deco deco-dots reveal" viewBox="0 0 110 110" aria-hidden="true"><defs><pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2.6" fill="currentColor"/></pattern></defs><rect width="110" height="110" fill="url(#dots)"/></svg>
+      <div class="photo reveal-photo">
+        <img src="assets/images/web/08-tratadora-abracando-cao.webp" alt="Tratadora de máscara abraçando um cachorro sorridente" width="534" height="546" loading="lazy" decoding="async" style="object-position:62% 50%">
+      </div>
+      <div class="sticker pop" style="--d:.7s">Seu selo ou destaque</div>
+      <span class="deco deco-paw-1 pop" style="--d:.9s"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="5.5" cy="10" rx="2.2" ry="3"/><ellipse cx="10" cy="5.8" rx="2.2" ry="3"/><ellipse cx="16" cy="5.8" rx="2.2" ry="3"/><ellipse cx="20" cy="10" rx="2.2" ry="3"/><path d="M12 11c-3.3 0-6 3.2-6 5.9 0 1.9 1.4 2.9 3 2.9 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.6 0 3-1 3-2.9 0-2.7-2.7-5.9-6-5.9z"/></svg></span>
+      <span class="deco deco-paw-2 pop" style="--d:1.05s"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="5.5" cy="10" rx="2.2" ry="3"/><ellipse cx="10" cy="5.8" rx="2.2" ry="3"/><ellipse cx="16" cy="5.8" rx="2.2" ry="3"/><ellipse cx="20" cy="10" rx="2.2" ry="3"/><path d="M12 11c-3.3 0-6 3.2-6 5.9 0 1.9 1.4 2.9 3 2.9 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.6 0 3-1 3-2.9 0-2.7-2.7-5.9-6-5.9z"/></svg></span>
+    </div>
+
+    <div class="about-copy">
+      <h2 class="about-title reveal" id="sobre-titulo">Sobre<br>nós</h2>
+      <svg class="squiggle reveal" style="--d:.1s" viewBox="0 0 160 20" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" aria-hidden="true"><path d="M3 12c13-12 26-12 39 0s26 12 39 0 26-12 39 0 26 12 37 0"/></svg>
+      <p class="about-lead reveal" style="--d:.15s">Escreva aqui uma frase de apresentação que conte quem é o seu negócio.</p>
+      <p class="about-text reveal" style="--d:.2s">Edite este parágrafo com a história, o jeito de trabalhar e os valores da sua empresa. Use poucas linhas e uma linguagem simples, para que tutores entendam rápido como você cuida dos cães.</p>
+      <ul class="benefits"><li class="benefit reveal" style="--d:0.25s"><span class="chip c-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1.2 8.6 3 5 6.5 5c2 0 3.5 1.1 5.5 3.2C14 6.1 15.500 5 17.500 5 21 5 22.800 8.600 21.500 11.800 19.500 16.400 12 21 12 21z"/></svg></span><div><h3>Benefício 1</h3><p>Descreva em uma linha este diferencial do seu negócio.</p></div></li><li class="benefit reveal" style="--d:0.35s"><span class="chip c-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.500-3.300 8-8 9-4.700-1-8-4.500-8-9V6z"/><path d="M8.500 12l2.500 2.500 4.500-5"/></svg></span><div><h3>Benefício 2</h3><p>Descreva em uma linha este diferencial do seu negócio.</p></div></li><li class="benefit reveal" style="--d:0.45s"><span class="chip c-yellow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.700 5.600 6.100.9-4.400 4.300 1 6.100L12 17l-5.400 2.900 1-6.100L3.200 9.500l6.100-.9z"/></svg></span><div><h3>Benefício 3</h3><p>Descreva em uma linha este diferencial do seu negócio.</p></div></li><li class="benefit reveal" style="--d:0.55s"><span class="chip c-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span><div><h3>Benefício 4</h3><p>Descreva em uma linha este diferencial do seu negócio.</p></div></li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NOSSOS SERVIÇOS ================= -->
+<section class="services" id="servicos" aria-labelledby="servicos-titulo">
+  <div class="svc-wrap">
+    <header class="svc-head">
+      <h2 class="svc-title reveal" id="servicos-titulo">Nossos<br>serviços</h2>
+      <p class="svc-intro reveal" style="--d:.12s">Edite este texto de apoio para apresentar, em uma ou duas frases, o que o seu negócio oferece. Use quantos cards precisar: copie ou apague um item da lista.</p>
+    </header>
+    <ul class="svc-grid">
+      <li class="reveal" style="--d:0.00s">
+        <article class="card c-blue">
+          <div class="pricewrap">
+            <div class="card-media">
+              <img src="assets/images/web/02-area-interna-recreacao.webp" alt="Cães brincando em uma sala ampla e iluminada" width="534" height="540" loading="lazy" decoding="async" style="object-position:50% 65%">
+            </div>
+            <!-- PREÇO é opcional: apague esta linha para ocultá-lo -->
+            <span class="price-pill">PREÇO</span>
+          </div>
+          <div class="card-body">
+            <h3>SEU SERVIÇO</h3>
+            <p class="desc">DESCRIÇÃO DO SERVIÇO. Edite com duas ou três linhas explicando o que está incluso.</p>
+            <a href="#contato" class="btn btn-blue btn-sm">SAIBA MAIS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+      </li>
+      <li class="reveal" style="--d:0.12s">
+        <article class="card c-orange">
+          <div class="pricewrap">
+            <div class="card-media">
+              <img src="assets/images/web/06-pista-agilidade.webp" alt="Cachorro na pista de agilidade com obstáculos coloridos no gramado" width="534" height="540" loading="lazy" decoding="async" style="object-position:50% 60%">
+            </div>
+            <!-- PREÇO é opcional: apague esta linha para ocultá-lo -->
+            <span class="price-pill">PREÇO</span>
+          </div>
+          <div class="card-body">
+            <h3>SEU SERVIÇO</h3>
+            <p class="desc">DESCRIÇÃO DO SERVIÇO. Edite com duas ou três linhas explicando o que está incluso.</p>
+            <a href="#contato" class="btn btn-blue btn-sm">SAIBA MAIS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+      </li>
+      <li class="reveal" style="--d:0.24s">
+        <article class="card c-yellow">
+          <div class="pricewrap">
+            <div class="card-media">
+              <img src="assets/images/web/04-banho-e-tosa-tratadora.webp" alt="Tratadora cuidando de um golden retriever na área de banho e tosa" width="534" height="540" loading="lazy" decoding="async" style="object-position:50% 45%">
+            </div>
+            <!-- PREÇO é opcional: apague esta linha para ocultá-lo -->
+            <span class="price-pill">PREÇO</span>
+          </div>
+          <div class="card-body">
+            <h3>SEU SERVIÇO</h3>
+            <p class="desc">DESCRIÇÃO DO SERVIÇO. Edite com duas ou três linhas explicando o que está incluso.</p>
+            <a href="#contato" class="btn btn-blue btn-sm">SAIBA MAIS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+      </li>
+      <li class="reveal" style="--d:0.00s">
+        <article class="card c-blue">
+          <div class="pricewrap">
+            <div class="card-media">
+              <img src="assets/images/web/03-gramado-playground.webp" alt="Golden retriever em um gramado com brinquedos coloridos e guarda-sol" width="534" height="540" loading="lazy" decoding="async" style="object-position:50% 70%">
+            </div>
+            <!-- PREÇO é opcional: apague esta linha para ocultá-lo -->
+            <span class="price-pill">PREÇO</span>
+          </div>
+          <div class="card-body">
+            <h3>SEU SERVIÇO</h3>
+            <p class="desc">DESCRIÇÃO DO SERVIÇO. Edite com duas ou três linhas explicando o que está incluso.</p>
+            <a href="#contato" class="btn btn-blue btn-sm">SAIBA MAIS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+      </li>
+      <li class="reveal" style="--d:0.12s">
+        <article class="card c-orange">
+          <div class="pricewrap">
+            <div class="card-media">
+              <img src="assets/images/web/01-suite-hospedagem-01.webp" alt="Suíte de hospedagem com cama e caminhas aconchegantes" width="534" height="540" loading="lazy" decoding="async" style="object-position:50% 60%">
+            </div>
+            <!-- PREÇO é opcional: apague esta linha para ocultá-lo -->
+            <span class="price-pill">PREÇO</span>
+          </div>
+          <div class="card-body">
+            <h3>SEU SERVIÇO</h3>
+            <p class="desc">DESCRIÇÃO DO SERVIÇO. Edite com duas ou três linhas explicando o que está incluso.</p>
+            <a href="#contato" class="btn btn-blue btn-sm">SAIBA MAIS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+      </li>
+      <li class="reveal" style="--d:0.24s">
+        <article class="card c-yellow">
+          <div class="pricewrap">
+            <div class="card-media">
+              <img src="assets/images/web/10-patio-cachorros-sentados.webp" alt="Três cães felizes sentados no pátio com deck de madeira" width="534" height="540" loading="lazy" decoding="async" style="object-position:50% 85%">
+            </div>
+            <!-- PREÇO é opcional: apague esta linha para ocultá-lo -->
+            <span class="price-pill">PREÇO</span>
+          </div>
+          <div class="card-body">
+            <h3>SEU SERVIÇO</h3>
+            <p class="desc">DESCRIÇÃO DO SERVIÇO. Edite com duas ou três linhas explicando o que está incluso.</p>
+            <a href="#contato" class="btn btn-blue btn-sm">SAIBA MAIS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= POR QUE ESCOLHER A GENTE ================= -->
+<section class="why" id="diferenciais" aria-labelledby="diferenciais-titulo">
+  <div class="why-wave" aria-hidden="true"><svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path fill="#ffffff" d="M0 0h1440v40c-160 44-320 52-500 22S600 8 420 40 120 80 0 52z"/></svg></div>
+  <svg class="why-dots" viewBox="0 0 150 150" aria-hidden="true"><defs><pattern id="dots2" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2.8" fill="currentColor"/></pattern></defs><rect width="150" height="150" fill="url(#dots2)"/></svg>
+  <div class="why-wrap">
+    <div class="why-intro">
+      <span class="why-paw" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="5.5" cy="10" rx="2.2" ry="3"/><ellipse cx="10" cy="5.8" rx="2.2" ry="3"/><ellipse cx="16" cy="5.8" rx="2.2" ry="3"/><ellipse cx="20" cy="10" rx="2.2" ry="3"/><path d="M12 11c-3.3 0-6 3.2-6 5.9 0 1.9 1.4 2.9 3 2.9 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.6 0 3-1 3-2.9 0-2.7-2.7-5.9-6-5.9z"/></svg></span>
+      <h2 class="why-title reveal" id="diferenciais-titulo">Por que<br>escolher<br>a gente?</h2>
+      <p class="why-text reveal" style="--d:.12s">Edite este texto para introduzir os diferenciais do seu negócio em uma ou duas frases curtas.</p>
+    </div>
+    <ul class="why-grid">
+        <li class="reveal" style="--d:0.00s">
+          <article class="why-tile t-white">
+            <div class="why-icon"><svg fill="currentColor" aria-hidden="true" viewBox="0 0 48 48"><path d="M24 42S6 31 6 18.500C6 12.700 10.500 9 15.500 9c3.500 0 6.500 2 8.500 5 2-3 5-5 8.500-5C37.500 9 42 12.700 42 18.500 42 31 24 42 24 42z"/><g style="fill:var(--blob)"><circle cx="24" cy="28" r="4.200"/><circle cx="18" cy="22" r="1.900"/><circle cx="22" cy="18.600" r="1.900"/><circle cx="26" cy="18.600" r="1.900"/><circle cx="30" cy="22" r="1.900"/></g></svg></div>
+            <h3>DIFERENCIAL 01</h3>
+            <p>DESCRIÇÃO DO DIFERENCIAL. Explique em uma ou duas linhas por que isso importa para o tutor.</p>
+          </article>
+        </li>
+        <li class="reveal" style="--d:0.12s">
+          <article class="why-tile t-yellow">
+            <div class="why-icon"><svg fill="currentColor" aria-hidden="true" viewBox="0 0 48 48"><path d="M24 5l15 5.500v11.500c0 9.500-6.500 16-15 20C15.500 38 9 31.500 9 22V10.500z"/><path d="M16.500 23.500l5 5 10-11" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--blob)"/></svg></div>
+            <h3>DIFERENCIAL 02</h3>
+            <p>DESCRIÇÃO DO DIFERENCIAL. Explique em uma ou duas linhas por que isso importa para o tutor.</p>
+          </article>
+        </li>
+        <li class="reveal" style="--d:0.24s">
+          <article class="why-tile t-orange">
+            <div class="why-icon"><svg fill="currentColor" aria-hidden="true" viewBox="0 0 48 48"><g transform="rotate(-35 24 24)"><rect x="9" y="19.500" width="30" height="9" rx="3"/><circle cx="9.500" cy="19" r="5.200"/><circle cx="9.500" cy="29" r="5.200"/><circle cx="38.500" cy="19" r="5.200"/><circle cx="38.500" cy="29" r="5.200"/></g></svg></div>
+            <h3>DIFERENCIAL 03</h3>
+            <p>DESCRIÇÃO DO DIFERENCIAL. Explique em uma ou duas linhas por que isso importa para o tutor.</p>
+          </article>
+        </li>
+        <li class="reveal" style="--d:0.36s">
+          <article class="why-tile t-white2">
+            <div class="why-icon"><svg fill="currentColor" aria-hidden="true" viewBox="0 0 48 48"><path d="M22 4c1.500 11 5 15 16 17-11 2-14.500 6-16 17-1.500-11-5-15-16-17 11-2 14.500-6 16-17z"/><path d="M38 31c.700 4.200 2 5.600 6 6.400-4 .800-5.300 2.200-6 6.600-.700-4.400-2-5.800-6-6.600 4-.800 5.300-2.200 6-6.400z"/></svg></div>
+            <h3>DIFERENCIAL 04</h3>
+            <p>DESCRIÇÃO DO DIFERENCIAL. Explique em uma ou duas linhas por que isso importa para o tutor.</p>
+          </article>
+        </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= COMO FUNCIONA ================= -->
+<section class="how" id="como-funciona" aria-labelledby="como-titulo">
+  <svg class="how-dots" viewBox="0 0 130 130" aria-hidden="true"><defs><pattern id="dots3" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2.6" fill="currentColor"/></pattern></defs><rect width="130" height="130" fill="url(#dots3)"/></svg>
+  <svg class="how-paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="5.5" cy="10" rx="2.2" ry="3"/><ellipse cx="10" cy="5.8" rx="2.2" ry="3"/><ellipse cx="16" cy="5.8" rx="2.2" ry="3"/><ellipse cx="20" cy="10" rx="2.2" ry="3"/><path d="M12 11c-3.3 0-6 3.2-6 5.9 0 1.9 1.4 2.9 3 2.9 1.2 0 2-.6 3-.6s1.8.6 3 .6c1.6 0 3-1 3-2.9 0-2.7-2.7-5.9-6-5.9z"/></svg>
+
+  <div class="how-wrap">
+    <header class="how-head">
+      <h2 class="how-title reveal" id="como-titulo">Como funciona</h2>
+      <p class="how-intro reveal" style="--d:.12s">Edite este texto para explicar, em uma ou duas frases, como é o atendimento do seu negócio. Use 3 ou 4 etapas: copie ou apague um item da lista abaixo.</p>
+    </header>
+
+    <!--
+      COMO EDITAR: em cada <li class="step"> troque "ETAPA 01", "TÍTULO DA ETAPA" e "DESCRIÇÃO".
+      O número grande no círculo (01, 02, 03…) é automático. Para 3 etapas, apague um <li>;
+      para 4, mantenha todos. Se apagar ou mover uma etapa, ajuste o texto "ETAPA 0X" do rótulo.
+    -->
+    <ol class="steps">
+
+      <li class="step reveal">
+        <span class="badge" aria-hidden="true"></span>
+        <div class="link" aria-hidden="true">
+          <svg class="link-base" viewBox="0 0 100 52" preserveAspectRatio="none"><path d="M0 26C30 -2 70 54 100 26"/></svg>
+          <svg class="link-fill" viewBox="0 0 100 52" preserveAspectRatio="none"><path d="M0 26C30 -2 70 54 100 26"/></svg>
+        </div>
+        <article class="step-card">
+          <div class="step-top">
+            <!-- ÍCONE: balão de conversa (troque por qualquer SVG de 48x48) -->
+            <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="currentColor"><path d="M10 7h28a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H27l-9.500 8.500V34H10a5 5 0 0 1-5-5V12a5 5 0 0 1 5-5z"/><g style="fill:var(--acc)"><circle cx="16.500" cy="20.500" r="2.600"/><circle cx="24" cy="20.500" r="2.600"/><circle cx="31.500" cy="20.500" r="2.600"/></g></svg></span>
+            <span class="step-tag">ETAPA 01</span>
+          </div>
+          <h3>TÍTULO DA ETAPA</h3>
+          <p>DESCRIÇÃO. Edite com uma ou duas linhas explicando o que acontece nesta etapa.</p>
+        </article>
+      </li>
+
+      <li class="step reveal">
+        <span class="badge" aria-hidden="true"></span>
+        <div class="link" aria-hidden="true">
+          <svg class="link-base" viewBox="0 0 100 52" preserveAspectRatio="none"><path d="M0 26C30 -2 70 54 100 26"/></svg>
+          <svg class="link-fill" viewBox="0 0 100 52" preserveAspectRatio="none"><path d="M0 26C30 -2 70 54 100 26"/></svg>
+        </div>
+        <article class="step-card">
+          <div class="step-top">
+            <!-- ÍCONE: calendário com check -->
+            <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="currentColor"><rect x="6" y="10" width="36" height="32" rx="8"/><path d="M16 5v10M32 5v10" fill="none" stroke="currentColor" stroke-width="4.500" stroke-linecap="round"/><path d="M15.500 27l6 6 11-12.500" fill="none" stroke-width="4.500" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--acc)"/></svg></span>
+            <span class="step-tag">ETAPA 02</span>
+          </div>
+          <h3>TÍTULO DA ETAPA</h3>
+          <p>DESCRIÇÃO. Edite com uma ou duas linhas explicando o que acontece nesta etapa.</p>
+        </article>
+      </li>
+
+      <li class="step reveal">
+        <span class="badge" aria-hidden="true"></span>
+        <div class="link" aria-hidden="true">
+          <svg class="link-base" viewBox="0 0 100 52" preserveAspectRatio="none"><path d="M0 26C30 -2 70 54 100 26"/></svg>
+          <svg class="link-fill" viewBox="0 0 100 52" preserveAspectRatio="none"><path d="M0 26C30 -2 70 54 100 26"/></svg>
+        </div>
+        <article class="step-card">
+          <div class="step-top">
+            <!-- ÍCONE: patinha com coração -->
+            <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="currentColor"><g transform="scale(2)"><ellipse cx="5.500" cy="10" rx="2.200" ry="3"/><ellipse cx="10" cy="5.800" rx="2.200" ry="3"/><ellipse cx="16" cy="5.800" rx="2.200" ry="3"/><ellipse cx="20" cy="10" rx="2.200" ry="3"/><path d="M12 11c-3.300 0-6 3.200-6 5.900 0 1.900 1.400 2.900 3 2.900 1.200 0 2-.6 3-.6s1.800.6 3 .6c1.600 0 3-1 3-2.900 0-2.700-2.700-5.900-6-5.900z"/></g><path style="fill:var(--acc)" d="M24 37c-4.200-2.500-6.400-4.800-6.400-7.400 0-1.900 1.400-3.200 3.100-3.200 1.300 0 2.500.7 3.300 1.900.8-1.200 2-1.900 3.300-1.900 1.700 0 3.100 1.300 3.100 3.200 0 2.600-2.200 4.900-6.400 7.400z"/></svg></span>
+            <span class="step-tag">ETAPA 03</span>
+          </div>
+          <h3>TÍTULO DA ETAPA</h3>
+          <p>DESCRIÇÃO. Edite com uma ou duas linhas explicando o que acontece nesta etapa.</p>
+        </article>
+      </li>
+
+      <li class="step reveal">
+        <span class="badge" aria-hidden="true"></span>
+        <article class="step-card">
+          <div class="step-top">
+            <!-- ÍCONE: carinha feliz -->
+            <span class="step-icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="currentColor"><circle cx="24" cy="24" r="19"/><g style="fill:var(--acc)"><circle cx="17.500" cy="20.500" r="2.800"/><circle cx="30.500" cy="20.500" r="2.800"/></g><path d="M16 28.500c2.200 5 13.800 5 16 0" fill="none" stroke-width="4" stroke-linecap="round" style="stroke:var(--acc)"/></svg></span>
+            <span class="step-tag">ETAPA 04</span>
+          </div>
+          <h3>TÍTULO DA ETAPA</h3>
+          <p>DESCRIÇÃO. Edite com uma ou duas linhas explicando o que acontece nesta etapa.</p>
+        </article>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- ================= MOMENTOS ESPECIAIS ================= -->
+<section class="moments" id="momentos" aria-labelledby="momentos-titulo">
+  <div class="mo-circle" aria-hidden="true"></div>
+  <div class="mo-ring" aria-hidden="true"></div>
+  <svg class="mo-dots" viewBox="0 0 130 130" aria-hidden="true"><defs><pattern id="dots4" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="2.6" fill="currentColor"/></pattern></defs><rect width="130" height="130" fill="url(#dots4)"/></svg>
+
+  <div class="mo-wrap">
+    <header class="mo-head">
+      <h2 class="mo-title reveal" id="momentos-titulo">Momentos<br>especiais</h2>
+      <div class="reveal" style="--d:.12s">
+        <p class="mo-intro">Edite este texto com uma ou duas frases sobre os melhores momentos do seu negócio: brincadeiras, aprendizados, carinho e amizade.</p>
+        <span class="mo-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg>Toque ou clique numa foto para ampliar</span>
+      </div>
+    </header>
+
+    <!--
+      COMO EDITAR: cada <li class="f1…f11"> é uma foto. Troque o src da miniatura (.webp), o data-full (versão grande, .png),
+      o alt e os textos data-cat (rótulo) e data-title (título). A posição e o tamanho de cada foto ficam no CSS (.mo-grid>.f1 … .f11),
+      os círculos coloridos são os itens .mo-deco e a frase em destaque é o item .mo-quote (edite o texto livremente).
+    -->
+    <div class="mo-gallery">
+      <ul class="mo-grid">
+      <li class="mo-deco mo-d1" aria-hidden="true"></li>
+      <li class="mo-deco mo-d2" aria-hidden="true"></li>
+            <li class="f1 reveal" style="--d:0.00s">
+        <button type="button" class="mo-card" data-full="assets/images/14-cachorros-correndo-gramado.png" data-cat="Gramado" data-title="Corrida entre amigos" aria-label="Ampliar foto: Corrida entre amigos">
+          <img src="assets/images/web/14-cachorros-correndo-gramado.webp" alt="Três cães correndo felizes pelo gramado ao sol" width="544" height="544" loading="lazy" decoding="async" style="object-position:50% 50%">
+          <span class="mo-n" aria-hidden="true">01</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Gramado</small><strong>Corrida entre amigos</strong></span>
+        </button>
+      </li>
+      <li class="f2 reveal" style="--d:0.08s">
+        <button type="button" class="mo-card" data-full="assets/images/15-cachorro-feliz-correndo.png" data-cat="Alegria" data-title="Pura felicidade" aria-label="Ampliar foto: Pura felicidade">
+          <img src="assets/images/web/15-cachorro-feliz-correndo.webp" alt="Cachorro branco e fofo correndo de boca aberta no gramado" width="544" height="544" loading="lazy" decoding="async" style="object-position:50% 50%">
+          <span class="mo-n" aria-hidden="true">02</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Alegria</small><strong>Pura felicidade</strong></span>
+        </button>
+      </li>
+      <li class="f3 reveal" style="--d:0.16s">
+        <button type="button" class="mo-card" data-full="assets/images/13-filhotes-sala.png" data-cat="Filhotes" data-title="Os primeiros amigos" aria-label="Ampliar foto: Os primeiros amigos">
+          <img src="assets/images/web/13-filhotes-sala.webp" alt="Dois filhotes sentados lado a lado em um tapete" width="544" height="544" loading="lazy" decoding="async" style="object-position:50% 45%">
+          <span class="mo-n" aria-hidden="true">03</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Filhotes</small><strong>Os primeiros amigos</strong></span>
+        </button>
+      </li>
+      <li class="f4 reveal" style="--d:0.04s">
+        <button type="button" class="mo-card" data-full="assets/images/19-golden-descansando-pufe.png" data-cat="Descanso" data-title="Hora do soninho" aria-label="Ampliar foto: Hora do soninho">
+          <img src="assets/images/web/19-golden-descansando-pufe.webp" alt="Golden retriever descansando em um pufe macio" width="544" height="544" loading="lazy" decoding="async" style="object-position:50% 70%">
+          <span class="mo-n" aria-hidden="true">04</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Descanso</small><strong>Hora do soninho</strong></span>
+        </button>
+      </li>
+      <li class="f5 reveal" style="--d:0.10s">
+        <button type="button" class="mo-card" data-full="assets/images/16-adestradora-treino-cone.png" data-cat="Treino" data-title="Aprender brincando" aria-label="Ampliar foto: Aprender brincando">
+          <img src="assets/images/web/16-adestradora-treino-cone.webp" alt="Adestradora guiando um cachorro em um treino com cone" width="544" height="544" loading="lazy" decoding="async" style="object-position:40% 50%">
+          <span class="mo-n" aria-hidden="true">05</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Treino</small><strong>Aprender brincando</strong></span>
+        </button>
+      </li>
+      <li class="f6 reveal" style="--d:0.18s">
+        <button type="button" class="mo-card" data-full="assets/images/21-carinho-no-sofa.png" data-cat="Carinho" data-title="Colo e cafuné" aria-label="Ampliar foto: Colo e cafuné">
+          <img src="assets/images/web/21-carinho-no-sofa.webp" alt="Tutora fazendo carinho em um cachorro deitado no sofá" width="544" height="544" loading="lazy" decoding="async" style="object-position:45% 40%">
+          <span class="mo-n" aria-hidden="true">06</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Carinho</small><strong>Colo e cafuné</strong></span>
+        </button>
+      </li>
+      <li class="f7 reveal" style="--d:0.06s">
+        <button type="button" class="mo-card" data-full="assets/images/22-amigos-no-gramado.png" data-cat="Turma" data-title="Três amigos, uma foto" aria-label="Ampliar foto: Três amigos, uma foto">
+          <img src="assets/images/web/22-amigos-no-gramado.webp" alt="Três cães de portes diferentes sentados juntos no gramado" width="544" height="544" loading="lazy" decoding="async" style="object-position:50% 50%">
+          <span class="mo-n" aria-hidden="true">07</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Turma</small><strong>Três amigos, uma foto</strong></span>
+        </button>
+      </li>
+      <li class="f8 reveal" style="--d:0.12s">
+        <button type="button" class="mo-card" data-full="assets/images/17-brincadeira-em-grupo.png" data-cat="Recreação" data-title="Dia de brincadeira" aria-label="Ampliar foto: Dia de brincadeira">
+          <img src="assets/images/web/17-brincadeira-em-grupo.webp" alt="Cães brincando com bolinha enquanto tutores observam" width="544" height="544" loading="lazy" decoding="async" style="object-position:50% 40%">
+          <span class="mo-n" aria-hidden="true">08</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Recreação</small><strong>Dia de brincadeira</strong></span>
+        </button>
+      </li>
+      <li class="f9 reveal" style="--d:0.02s">
+        <button type="button" class="mo-card" data-full="assets/images/18-carinho-golden-tutora.png" data-cat="Tutores" data-title="Um abraço apertado" aria-label="Ampliar foto: Um abraço apertado">
+          <img src="assets/images/web/18-carinho-golden-tutora.webp" alt="Cachorro sorridente recebendo um abraço da tutora" width="544" height="544" loading="lazy" decoding="async" style="object-position:25% 50%">
+          <span class="mo-n" aria-hidden="true">09</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Tutores</small><strong>Um abraço apertado</strong></span>
+        </button>
+      </li>
+      <li class="f10 reveal" style="--d:0.14s">
+        <button type="button" class="mo-card" data-full="assets/images/20-cachorro-pista-agilidade.png" data-cat="Agilidade" data-title="Salto em ação" aria-label="Ampliar foto: Salto em ação">
+          <img src="assets/images/web/20-cachorro-pista-agilidade.webp" alt="Cachorro caminhando entre obstáculos da pista de agilidade" width="544" height="544" loading="lazy" decoding="async" style="object-position:55% 50%">
+          <span class="mo-n" aria-hidden="true">10</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Agilidade</small><strong>Salto em ação</strong></span>
+        </button>
+      </li>
+      <li class="f11 reveal" style="--d:0.08s">
+        <button type="button" class="mo-card" data-full="assets/images/23-trio-na-plataforma.png" data-cat="Conquistas" data-title="No pódio da turma" aria-label="Ampliar foto: No pódio da turma">
+          <img src="assets/images/web/23-trio-na-plataforma.webp" alt="Filhote sentado na plataforma colorida entre um labrador e um golden" width="544" height="544" loading="lazy" decoding="async" style="object-position:50% 65%">
+          <span class="mo-n" aria-hidden="true">11</span>
+          <span class="mo-zoom" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+          <span class="mo-cap"><small>Conquistas</small><strong>No pódio da turma</strong></span>
+        </button>
+      </li>
+      <li class="mo-quote reveal" style="--d:.1s"><p>Pequenos instantes,<br><em>grandes memórias.</em></p></li>
+      
+      </ul>
+    </div>
+  </div>
+
+  <!-- Ampliação -->
+  <dialog class="mo-lb" id="moLb" aria-label="Foto ampliada">
+    <button type="button" class="mo-lb-btn mo-lb-close" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    <button type="button" class="mo-lb-btn mo-lb-prev" aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4l-8 8 8 8"/></svg></button>
+    <figure class="mo-lb-fig" id="moFig">
+      <img src="" alt="">
+      <figcaption><small></small><strong></strong><span></span></figcaption>
+    </figure>
+    <button type="button" class="mo-lb-btn mo-lb-next" aria-label="Próxima foto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg></button>
+  </dialog>
+</section>
+</main>
+
+<script>
+(function(){
+  var header=document.getElementById('header'),
+      burger=document.getElementById('burger'),
+      menu=document.getElementById('mobile-menu'),
+      video=document.getElementById('heroVideo');
+
+  function setMenu(open){
+    burger.setAttribute('aria-expanded',open);
+    burger.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
+    menu.classList.toggle('is-open',open);
+  }
+  burger.addEventListener('click',function(){setMenu(burger.getAttribute('aria-expanded')!=='true')});
+  menu.addEventListener('click',function(e){if(e.target.closest('a'))setMenu(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
+  document.addEventListener('click',function(e){if(!header.contains(e.target))setMenu(false)});
+  window.matchMedia('(min-width:960px)').addEventListener('change',function(){setMenu(false)});
+
+  window.addEventListener('scroll',function(){header.classList.toggle('is-scrolled',window.scrollY>20)},{passive:true});
+
+  /* Vídeo: reforça autoplay mudo; respeita "reduzir movimento" */
+  video.muted=true;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){video.removeAttribute('autoplay');video.pause();}
+  else{var p=video.play();if(p&&p.catch)p.catch(function(){});}
+  /* Economia: pausa o vídeo quando o hero sai da tela */
+  if('IntersectionObserver' in window&&!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    new IntersectionObserver(function(en){en[0].isIntersecting?video.play().catch(function(){}):video.pause()}).observe(video);
+  }
+  /* Revelar elementos ao entrar na tela */
+  var rev=document.querySelectorAll('.reveal,.reveal-photo');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+    rev.forEach(function(el){io.observe(el)});
+  }else{rev.forEach(function(el){el.classList.add('in')})}
+  document.querySelectorAll('.about-media').forEach(function(m){
+    new IntersectionObserver(function(es,o){if(es[0].isIntersecting){m.classList.add('in');o.disconnect()}},{threshold:.2}).observe(m);
+  });
+})();
+</script>
+<script>
+/* Momentos especiais: ampliação (lightbox) */
+(function(){
+  var dlg=document.getElementById('moLb'); if(!dlg) return;
+  var cards=[].slice.call(document.querySelectorAll('.mo-card')),
+      fig=document.getElementById('moFig'),
+      img=fig.querySelector('img'),
+      cat=fig.querySelector('small'),
+      ttl=fig.querySelector('strong'),
+      cnt=fig.querySelector('span'),
+      cur=0, last=null, root=document.documentElement;
+
+  function pad(n){return (n<10?'0':'')+n}
+  function preload(i){var c=cards[(i+cards.length)%cards.length];if(c){var p=new Image();p.src=c.dataset.full}}
+  function show(i,animate){
+    cur=(i+cards.length)%cards.length;
+    var c=cards[cur], th=c.querySelector('img');
+    img.src=c.dataset.full; img.alt=th?th.alt:'';
+    cat.textContent=c.dataset.cat||''; ttl.textContent=c.dataset.title||'';
+    cnt.textContent=pad(cur+1)+' / '+pad(cards.length);
+    if(animate){fig.classList.remove('swap');void fig.offsetWidth;fig.classList.add('swap')}
+    preload(cur+1); preload(cur-1);
+  }
+  function open(i){
+    last=cards[i]; show(i,false);
+    if(typeof dlg.showModal==='function'){ if(!dlg.open) dlg.showModal(); } else dlg.setAttribute('open','');
+    root.classList.add('mo-lock');
+  }
+  function close(){ if(typeof dlg.close==='function') dlg.close(); else dlg.removeAttribute('open'); cleanup(); }
+  function cleanup(){ root.classList.remove('mo-lock'); if(last) last.focus({preventScroll:true}); }
+
+  cards.forEach(function(c,i){c.addEventListener('click',function(){open(i)})});
+  dlg.querySelector('.mo-lb-close').addEventListener('click',close);
+  dlg.querySelector('.mo-lb-prev').addEventListener('click',function(){show(cur-1,true)});
+  dlg.querySelector('.mo-lb-next').addEventListener('click',function(){show(cur+1,true)});
+  dlg.addEventListener('close',cleanup);
+  /* clicar fora da foto fecha */
+  dlg.addEventListener('click',function(e){ if(e.target===dlg||e.target===fig) close(); });
+  dlg.addEventListener('keydown',function(e){
+    if(e.key==='ArrowLeft'){e.preventDefault();show(cur-1,true)}
+    else if(e.key==='ArrowRight'){e.preventDefault();show(cur+1,true)}
+  });
+  /* deslizar o dedo troca de foto */
+  var x0=null;
+  fig.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  fig.addEventListener('touchend',function(e){
+    if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; x0=null;
+    if(Math.abs(dx)>50) show(cur+(dx<0?1:-1),true);
+  });
+})();
+</script>
+<script>
+/* Cursor personalizado: ossinho. Só para mouse (ponteiro fino). No celular não faz nada. */
+(function(){
+  if(!window.matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  var root=document.documentElement,
+      reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches,
+      NS='http://www.w3.org/2000/svg',
+      INK='#12204a',BONE='#fff6e4',
+      SEL='a[href],button,[role="button"],input,select,textarea,summary,label[for],.mo-card',
+      LEN=34,
+      bone=document.createElement('div'),inner,svg,
+      mx=-100,my=-100,x=-100,y=-100,started=false,running=false;
+
+  bone.className='bone';bone.setAttribute('aria-hidden','true');
+  bone.innerHTML='<div class="bone-i"><svg viewBox="0 0 34 16" aria-hidden="true">'+
+    '<defs><g id="bn-s"><circle cx="4.6" cy="4.4" r="3.6"/><circle cx="4.6" cy="11.6" r="3.6"/>'+
+    '<circle cx="29.4" cy="4.4" r="3.6"/><circle cx="29.4" cy="11.6" r="3.6"/><rect x="4.6" y="5.2" width="24.8" height="5.6" rx="1"/></g></defs>'+
+    '<use href="#bn-s" fill="'+INK+'" stroke="'+INK+'" stroke-width="2.2" stroke-linejoin="round"/>'+
+    '<use href="#bn-s" fill="'+BONE+'"/></svg></div>';
+  document.body.appendChild(bone);
+  inner=bone.firstChild;svg=inner.firstChild;
+
+  /* segue o mouse: suave, mas colado no ponteiro (a ponta esquerda do osso é o "hotspot") */
+  function frame(){
+    var k=reduce?1:.42;
+    x+=(mx-x)*k;y+=(my-y)*k;
+    if(Math.abs(mx-x)<.05&&Math.abs(my-y)<.05){x=mx;y=my;running=false}
+    bone.style.transform='translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0)';
+    if(running)requestAnimationFrame(frame);
+  }
+  function kick(){if(!running){running=true;requestAnimationFrame(frame)}}
+
+  /* farelinhos: pedacinhos minúsculos que se soltam do osso e caem (o osso nunca é tocado) */
+  var live=0;
+  function crumb(cx,cy){
+    var el=document.createElementNS(NS,'svg'),pts=[],n=5,i,a,r,sz=2.2+Math.random()*1.8;
+    for(i=0;i<n;i++){a=i/n*6.283+Math.random()*.8;r=sz*(.6+Math.random()*.4);pts.push((6+Math.cos(a)*r).toFixed(1)+','+(6+Math.sin(a)*r).toFixed(1))}
+    el.setAttribute('viewBox','0 0 12 12');el.setAttribute('class','bone-bit');el.setAttribute('aria-hidden','true');
+    el.innerHTML='<polygon points="'+pts.join(' ')+'" fill="'+BONE+'" stroke="'+INK+'" stroke-width="1.6" stroke-linejoin="round"/>';
+    document.body.appendChild(el);live++;
+    var dx=(Math.random()-.5)*34,up=-(3+Math.random()*7),fall=18+Math.random()*16,rot=(Math.random()-.5)*300,dur=380+Math.random()*160,
+        at=function(px,py,rt,sc){return 'translate3d('+(cx+px).toFixed(1)+'px,'+(cy+py).toFixed(1)+'px,0) rotate('+rt.toFixed(0)+'deg) scale('+sc+')'};
+    var an=el.animate([
+      {transform:at(0,0,0,1),opacity:1},
+      {transform:at(dx*.5,up,rot*.4,1),opacity:1,offset:.25},
+      {transform:at(dx,fall,rot,.5),opacity:0}
+    ],{duration:dur,easing:'cubic-bezier(.3,.1,.6,1)',fill:'forwards'});
+    an.onfinish=function(){el.remove();live--};
+  }
+  /* clique: solta uns farelinhos ao longo do osso; sem travas, aceita cliques seguidos */
+  function bite(){
+    var n=live>24?0:4+Math.floor(Math.random()*3),i,t;
+    for(i=0;i<n;i++){
+      t=.25+Math.random()*.6; /* posição ao longo do corpo do osso (45°) */
+      crumb(x+t*LEN*.7071,y+t*LEN*.7071+2);
+    }
+  }
+
+  document.addEventListener('pointermove',function(e){
+    if(e.pointerType&&e.pointerType!=='mouse')return;
+    mx=e.clientX;my=e.clientY;
+    if(!started){started=true;x=mx;y=my;root.classList.add('has-cursor')}
+    root.classList.add('cur-on');
+    root.classList.toggle('cur-hot',!!(e.target&&e.target.closest&&e.target.closest(SEL)));
+    kick();
+  },{passive:true});
+  document.addEventListener('pointerdown',function(e){
+    if(started&&(!e.pointerType||e.pointerType==='mouse')&&e.button===0&&!root.classList.contains('mo-lock'))bite();
+  },{passive:true});
+  root.addEventListener('mouseleave',function(){root.classList.remove('cur-on')});
+  root.addEventListener('mouseenter',function(){if(started)root.classList.add('cur-on')});
+})();
+</script>
+</body>
+</html>
